@@ -1,0 +1,12 @@
+*.exe
+*.dll
+*.obj
+*.o
+*.lib
+*.pdb
+build/
+cmake_build/
+out/
+.vs/
+Thumbs.db
+Desktop.ini
