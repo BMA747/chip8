@@ -57,21 +57,31 @@ void fetch(CPU* cpu_ptr){
     
 }
 void execute(CPU* cpu_ptr){
-    uint16_t nnn = cpu_ptr->instruction & 0x0111;
-    uint8_t n = cpu_ptr->instruction & 0x0001;
-    uint8_t x = (cpu_ptr->instruction & 0x0100) >> 16;
-    uint8_t y = (cpu_ptr->instruction & 0x0010) >> 8;
-    uint8_t kk = cpu_ptr->instruction & 0x0011;
+    uint16_t nnn = cpu_ptr->instruction & 0b0000111111111111;
+    uint8_t n = cpu_ptr->instruction & 0b0000000000001111;
+    uint8_t x = (cpu_ptr->instruction & 0b0000111100000000) >> 8;
+    uint8_t y = (cpu_ptr->instruction & 0b0000000011110000) >> 4;
+    uint8_t kk = cpu_ptr->instruction & 0b0000000011111111;
+    uint8_t opcode = (cpu_ptr->instruction & 0b1111000000000000) >> 12;
 
-    switch(cpu_ptr->instruction){
-        case 0x00E0:
-
+    switch(opcode){
+        case 0:
+            //clear screen 
             break;
-        case (0x1000 || nnn):
+        case 1:
             cpu_ptr->PC = nnn;
             break;
-
-        
+        case 6:
+            cpu_ptr->V[x] = kk;
+            break;
+        case 7:
+            cpu_ptr->V[x] += kk;
+            break;
+        case 10:
+            cpu_ptr->Index = nnn;
+            break;
+        case 14:
+            //draw sprite
+            break;
     }
-
 }
